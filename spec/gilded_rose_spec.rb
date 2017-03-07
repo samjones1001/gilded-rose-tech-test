@@ -32,7 +32,7 @@ describe GildedRose do
       expect(items[0].quality).to eq(0)
     end
 
-    context 'generic item' do
+    context 'when item is generic' do
       context 'before sell_in' do
         it 'lowers quality by one after one day' do
           items = [Item.new("item", 1, 1)]
@@ -72,6 +72,59 @@ describe GildedRose do
       end
     end
 
-    
+    context 'when item is Aged Brie' do
+      context 'before sell_in' do
+        it 'raises quality by one after a day' do
+          items = [Item.new("Aged Brie", 1, 0)]
+          GildedRose.new(items).update_quality
+          expect(items[0].quality).to eq(1)
+        end
+
+        it 'raises quality by n after n days' do
+          n = 5
+          items = [Item.new("Aged Brie", n, 0)]
+
+          n.times do
+            GildedRose.new(items).update_quality
+          end
+
+          expect(items[0].quality).to eq(5)
+        end
+
+        it 'never raises quality beyond 50' do
+          items = [Item.new("Aged Brie", 1, 50)]
+          GildedRose.new(items).update_quality
+          expect(items[0].quality).to eq(50)
+        end
+      end
+
+      context 'after sell_in' do
+        it 'raises quality by two after a day' do
+          items = [Item.new("Aged Brie", 0, 0)]
+          GildedRose.new(items).update_quality
+          expect(items[0].quality).to eq(2)
+        end
+
+        it 'raises quality by 2n after n days' do
+          n = 5
+          items = [Item.new("Aged Brie", 0, 0)]
+
+          n.times do
+            GildedRose.new(items).update_quality
+          end
+
+          expect(items[0].quality).to eq(10)
+        end
+
+        it 'only raises quality to 50 when quality is at 49' do
+          items = [Item.new("Aged Brie", 0, 49)]
+          GildedRose.new(items).update_quality
+          expect(items[0].quality).to eq(50)
+        end
+      end
+    end
+
+
+
   end
 end
