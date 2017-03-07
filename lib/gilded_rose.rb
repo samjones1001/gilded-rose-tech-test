@@ -11,22 +11,18 @@ class GildedRose
 
       if !SPECIAL_ITEMS.include?(item.name)
         generic_item_update(item)
-        return
       end
 
       if item.name == "Sulfuras, Hand of Ragnaros"
         sulfuras_update(item)
-        return
       end
 
       if item.name == "Aged Brie"
         brie_update(item)
-        return
       end
 
       if item.name == "Backstage passes to a TAFKAL80ETC concert"
         pass_update(item)
-        return
       end
     end
   end
