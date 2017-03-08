@@ -229,6 +229,46 @@ describe GildedRose do
       end
     end
 
+    context 'when item is conjured thingie' do
+      context 'before sell_in' do
+        it 'lowers quality by 2 after one day' do
+          items = [Item.new("Conjured Thingie", 1, 2)]
+          GildedRose.new(items).update_quality
+          expect(items[0].quality).to eq(0)
+        end
+
+        it 'lowers quality by 2n after n days' do
+          n = 5
+          items = [Item.new("Conjured Thingie", n, (2 * n))]
+
+          n.times do
+            GildedRose.new(items).update_quality
+          end
+
+          expect(items[0].quality).to eq(0)
+        end
+      end
+
+      context 'after sell_in' do
+        it 'lowers quality by four after a day' do
+          items = [Item.new("Conjured Thingie", 0, 4)]
+          GildedRose.new(items).update_quality
+          expect(items[0].quality).to eq(0)
+        end
+
+        it 'lowers quality by 4n after n days' do
+          n = 5
+          items = [Item.new("Conjured Thingie", 0, (4 * n))]
+
+          n.times do
+            GildedRose.new(items).update_quality
+          end
+
+          expect(items[0].quality).to eq(0)
+        end
+      end
+    end
+
 
 
   end

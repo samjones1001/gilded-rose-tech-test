@@ -46,7 +46,7 @@ class ItemUpdater
   def update
     UPDATE_RULES.include?(item.name) ? UPDATE_RULES[item.name].call(item) : UPDATE_RULES["Generic item"].call(item)
   end
-  
+
 end
 
 
@@ -62,4 +62,5 @@ class Item
   def to_s()
     "#{@name}, #{@sell_in}, #{@quality}"
   end
+
 end
