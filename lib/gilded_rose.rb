@@ -1,25 +1,12 @@
 class GildedRose
 
-  SPECIAL_ITEMS = ["Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Sulfuras, Hand of Ragnaros"]
-
   def initialize(items)
     @items = items
   end
 
   def update_quality()
     @items.each do |item|
-      if item.name == "Aged Brie"
-        BrieUpdater.new(item).update
-        return
-      elsif item.name == "Sulfuras, Hand of Ragnaros"
-        SulfurasUpdater.new(item).update
-        return
-      elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
-        BackstagePassUpdater.new(item).update
-        return
-      else
-        GenericItemUpdater.new(item).update
-      end
+      ItemUpdater.new(item).update
     end
   end
 end
@@ -31,11 +18,22 @@ class ItemUpdater
     @item = item
   end
 
-  private
+  def update
+    if item.name == "Aged Brie"
+      BrieUpdater.new(item).update
+      return
+    elsif item.name == "Sulfuras, Hand of Ragnaros"
+      SulfurasUpdater.new(item).update
+      return
+    elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
+      BackstagePassUpdater.new(item).update
+      return
+    else
+      GenericItemUpdater.new(item).update
+    end
+  end
 
-  # def update
-  #   @item.update
-  # end
+  private
 
   def increase_quality
     @item.quality += 1
