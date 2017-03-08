@@ -9,21 +9,16 @@ class GildedRose
   def update_quality()
     @items.each do |item|
 
-      if !SPECIAL_ITEMS.include?(item.name)
-        generic_item_update(item)
-      end
-
       if item.name == "Sulfuras, Hand of Ragnaros"
         sulfuras_update(item)
-      end
-
-      if item.name == "Aged Brie"
+      elsif item.name == "Aged Brie"
         brie_update(item)
-      end
-
-      if item.name == "Backstage passes to a TAFKAL80ETC concert"
+      elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
         pass_update(item)
+      else
+        generic_item_update(item)
       end
+      
     end
   end
 
@@ -70,7 +65,6 @@ class GildedRose
           item.quality = 50
         end
       else
-      #  p item.quality -= item.quality
         item.quality -= item.quality
       end
     end
