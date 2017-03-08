@@ -36,6 +36,12 @@ class ItemUpdater
                                                         item.quality -= 1 if item.sell_in < 1
                                                         item.quality = 0 if item.quality < 0
                                                         item.sell_in -= 1
+                                                      end,
+    "Conjured Thingie" =>                             Proc.new do |item|
+                                                        item.quality -= 2
+                                                        item.quality -= 2 if item.sell_in < 1
+                                                        item.qaulity = 0 if item.quality < 0
+                                                        item.sell_in -= 1
                                                       end
   }
 
