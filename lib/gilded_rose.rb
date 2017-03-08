@@ -31,19 +31,33 @@ class ItemUpdater
     @item = item
   end
 
-  def update
-    @item.update
+  private
+
+  # def update
+  #   @item.update
+  # end
+
+  def increase_quality
+    @item.quality += 1
+  end
+
+  def decrease_quality
+    @item.quality -= 1
+  end
+
+  def update_sell_in
+    @item.sell_in -= 1
   end
 
 end
 
 class BrieUpdater < ItemUpdater
   def update
-    item.quality += 1
-    item.quality += 1 if item.sell_in < 1
+    increase_quality
+    increase_quality if item.sell_in < 1
 
     item.quality = 50 if item.quality > 50
-    item.sell_in -= 1
+    update_sell_in
   end
 end
 
@@ -54,23 +68,23 @@ end
 
 class BackstagePassUpdater < ItemUpdater
   def update
-    item.quality += 1
-    item.quality += 1 if item.sell_in <= 10
-    item.quality += 1 if item.sell_in <= 5
+    increase_quality
+    increase_quality if item.sell_in <= 10
+    increase_quality if item.sell_in <= 5
     item.quality = 0 if item.sell_in < 1
 
     item.quality = 50 if item.quality > 50
-    item.sell_in -= 1
+    update_sell_in
   end
 end
 
 class GenericItemUpdater < ItemUpdater
   def update
-    item.quality -= 1
-    item.quality -= 1 if item.sell_in < 1
+    decrease_quality
+    decrease_quality if item.sell_in < 1
 
     item.quality = 0 if item.quality < 0
-    item.sell_in -= 1
+    update_sell_in
   end
 end
 
