@@ -31,16 +31,16 @@ class ItemUpdater
                                                         item.quality = 50 if item.quality > 50
                                                         item.sell_in -= 1
                                                       end,
-    "Generic item" =>                                 Proc.new do |item|
-                                                        item.quality -= 1
-                                                        item.quality -= 1 if item.sell_in < 1
-                                                        item.quality = 0 if item.quality < 0
-                                                        item.sell_in -= 1
-                                                      end,
     "Conjured Thingie" =>                             Proc.new do |item|
                                                         item.quality -= 2
                                                         item.quality -= 2 if item.sell_in < 1
                                                         item.qaulity = 0 if item.quality < 0
+                                                        item.sell_in -= 1
+                                                      end,
+    "Generic item" =>                                 Proc.new do |item|
+                                                        item.quality -= 1
+                                                        item.quality -= 1 if item.sell_in < 1
+                                                        item.quality = 0 if item.quality < 0
                                                         item.sell_in -= 1
                                                       end
   }
@@ -52,7 +52,6 @@ class ItemUpdater
   def update
     UPDATE_RULES.include?(item.name) ? UPDATE_RULES[item.name].call(item) : UPDATE_RULES["Generic item"].call(item)
   end
-
 end
 
 
@@ -68,5 +67,4 @@ class Item
   def to_s()
     "#{@name}, #{@sell_in}, #{@quality}"
   end
-
 end

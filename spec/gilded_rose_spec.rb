@@ -18,11 +18,9 @@ describe GildedRose do
     it "lowers the sell_in by n after n days" do
       n = 5
       items = [Item.new("item", n, 0)]
-
       n.times do
         GildedRose.new(items).update_quality
       end
-
       expect(items[0].sell_in).to eq(0)
     end
 
@@ -43,11 +41,9 @@ describe GildedRose do
         it 'lowers quality by n after n days' do
           n = 5
           items = [Item.new("item", n, n)]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(0)
         end
       end
@@ -62,11 +58,9 @@ describe GildedRose do
         it 'lowers quality by 2n after n days' do
           n = 5
           items = [Item.new("item", 0, 10)]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(0)
         end
       end
@@ -83,11 +77,9 @@ describe GildedRose do
         it 'raises quality by n after n days' do
           n = 5
           items = [Item.new("Aged Brie", n, 0)]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(5)
         end
 
@@ -108,11 +100,9 @@ describe GildedRose do
         it 'raises quality by 2n after n days' do
           n = 5
           items = [Item.new("Aged Brie", 0, 0)]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(10)
         end
 
@@ -149,11 +139,9 @@ describe GildedRose do
         it 'increases quality by n after n days' do
           n = 5
           items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 15, 0)]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(5)
         end
 
@@ -174,11 +162,9 @@ describe GildedRose do
         it 'increases quality by 2n after n days' do
           n = 5
           items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 10, 0)]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(10)
         end
 
@@ -199,11 +185,9 @@ describe GildedRose do
         it 'increases quality by 3n after n days' do
           n = 5
           items = [Item.new("Backstage passes to a TAFKAL80ETC concert", 5, 0)]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(15)
         end
 
@@ -240,11 +224,9 @@ describe GildedRose do
         it 'lowers quality by 2n after n days' do
           n = 5
           items = [Item.new("Conjured Thingie", n, (2 * n))]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(0)
         end
       end
@@ -259,17 +241,12 @@ describe GildedRose do
         it 'lowers quality by 4n after n days' do
           n = 5
           items = [Item.new("Conjured Thingie", 0, (4 * n))]
-
           n.times do
             GildedRose.new(items).update_quality
           end
-
           expect(items[0].quality).to eq(0)
         end
       end
     end
-
-
-
   end
 end
