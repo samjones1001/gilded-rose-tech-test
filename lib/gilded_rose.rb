@@ -16,9 +16,28 @@ class ItemUpdater
   attr_reader :item
 
   SPECIAL_ITEMS = {
-    "Aged Brie" =>                                    'BrieUpdater',
-    "Sulfuras, Hand of Ragnaros" =>                   'SulfurasUpdater',
-    "Backstage passes to a TAFKAL80ETC concert" =>    'BackstagePassUpdater'
+    "Aged Brie" =>                                    Proc.new { |item|
+                                                      item.quality += 1
+                                                      item.quality += 1 if item.sell_in < 1
+                                                      item.quality = 50 if item.quality > 50
+                                                      item.sell_in -= 1
+                                                      },
+    "Sulfuras, Hand of Ragnaros" =>                   Proc.new { |item|
+                                                      },
+    "Backstage passes to a TAFKAL80ETC concert" =>    Proc.new { |item|
+                                                        item.quality += 1
+                                                        item.quality += 1 if item.sell_in <= 10
+                                                        item.quality += 1 if item.sell_in <= 5
+                                                        item.quality = 0 if item.sell_in < 1
+                                                        item.quality = 50 if item.quality > 50
+                                                        item.sell_in -= 1
+                                                      },
+    "Generic item" =>                                 Proc.new { |item|
+                                                      item.quality -= 1
+                                                      item.quality -= 1 if item.sell_in < 1
+                                                      item.quality = 0 if item.quality < 0
+                                                      item.sell_in -= 1
+                                                      }
   }
 
   def initialize(item)
@@ -26,12 +45,20 @@ class ItemUpdater
   end
 
   def update
-    update_picker.new(item).update
+    if SPECIAL_ITEMS.include?(item.name)
+      SPECIAL_ITEMS[item.name].call(item)
+    else
+      SPECIAL_ITEMS["Generic item"].call(item)
+    end
   end
 
   private
 
   def update_picker
+    if item.name == "Aged Brie"
+      SPECIAL_ITEMS[item.name].call(item)
+      return
+    end
     if SPECIAL_ITEMS.include?(item.name)
       @updater = eval(SPECIAL_ITEMS[item.name])
     else
