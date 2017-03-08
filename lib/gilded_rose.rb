@@ -11,29 +11,33 @@ class GildedRose
   end
 end
 
+
 class ItemUpdater
   attr_reader :item
+
+  SPECIAL_ITEMS = {
+    "Aged Brie" =>                                    'BrieUpdater',
+    "Sulfuras, Hand of Ragnaros" =>                   'SulfurasUpdater',
+    "Backstage passes to a TAFKAL80ETC concert" =>    'BackstagePassUpdater'
+  }
 
   def initialize(item)
     @item = item
   end
 
   def update
-    if item.name == "Aged Brie"
-      BrieUpdater.new(item).update
-      return
-    elsif item.name == "Sulfuras, Hand of Ragnaros"
-      SulfurasUpdater.new(item).update
-      return
-    elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
-      BackstagePassUpdater.new(item).update
-      return
-    else
-      GenericItemUpdater.new(item).update
-    end
+      update_picker.new(item).update
   end
 
   private
+
+  def update_picker
+    if SPECIAL_ITEMS.include?(item.name)
+      @updater ||= eval(SPECIAL_ITEMS[item.name])
+    else
+      @updater = GenericItemUpdater
+    end
+  end
 
   def increase_quality
     @item.quality += 1
@@ -49,6 +53,7 @@ class ItemUpdater
 
 end
 
+
 class BrieUpdater < ItemUpdater
   def update
     increase_quality
@@ -59,10 +64,12 @@ class BrieUpdater < ItemUpdater
   end
 end
 
+
 class SulfurasUpdater < ItemUpdater
   def update
   end
 end
+
 
 class BackstagePassUpdater < ItemUpdater
   def update
@@ -76,6 +83,7 @@ class BackstagePassUpdater < ItemUpdater
   end
 end
 
+
 class GenericItemUpdater < ItemUpdater
   def update
     decrease_quality
@@ -85,6 +93,7 @@ class GenericItemUpdater < ItemUpdater
     update_sell_in
   end
 end
+
 
 class Item
   attr_accessor :name, :sell_in, :quality
