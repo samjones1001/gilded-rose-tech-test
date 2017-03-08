@@ -8,38 +8,52 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      if item.name == "Sulfuras, Hand of Ragnaros"
-        sulfuras_update(item)
-      elsif item.name == "Aged Brie"
-        brie_update(item)
+      if item.name == "Aged Brie"
+        BrieUpdater.new(item).update
+        return
+      elsif item.name == "Sulfuras, Hand of Ragnaros"
+        SulfurasUpdater.new(item).update
+        return
       elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
-        pass_update(item)
+        BackstagePassUpdater.new(item).update
+        return
       else
-        generic_item_update(item)
+        GenericItemUpdater.new(item).update
       end
     end
   end
+end
 
-  def generic_item_update(item)
-    item.quality -= 1
-    item.quality -= 1 if item.sell_in < 1
+class ItemUpdater
+  attr_reader :item
 
-    item.quality = 0 if item.quality < 0
-    item.sell_in -= 1
+  def initialize(item)
+    @item = item
   end
 
-  def sulfuras_update(item)
+  def update
+    @item.update
   end
 
-  def brie_update(item)
+end
+
+class BrieUpdater < ItemUpdater
+  def update
     item.quality += 1
     item.quality += 1 if item.sell_in < 1
 
     item.quality = 50 if item.quality > 50
     item.sell_in -= 1
   end
+end
 
-  def pass_update(item)
+class SulfurasUpdater < ItemUpdater
+  def update
+  end
+end
+
+class BackstagePassUpdater < ItemUpdater
+  def update
     item.quality += 1
     item.quality += 1 if item.sell_in <= 10
     item.quality += 1 if item.sell_in <= 5
@@ -48,7 +62,16 @@ class GildedRose
     item.quality = 50 if item.quality > 50
     item.sell_in -= 1
   end
+end
 
+class GenericItemUpdater < ItemUpdater
+  def update
+    item.quality -= 1
+    item.quality -= 1 if item.sell_in < 1
+
+    item.quality = 0 if item.quality < 0
+    item.sell_in -= 1
+  end
 end
 
 class Item
