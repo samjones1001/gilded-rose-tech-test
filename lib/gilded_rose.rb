@@ -26,14 +26,14 @@ class ItemUpdater
   end
 
   def update
-      update_picker.new(item).update
+    update_picker.new(item).update
   end
 
   private
 
   def update_picker
     if SPECIAL_ITEMS.include?(item.name)
-      @updater ||= eval(SPECIAL_ITEMS[item.name])
+      @updater = eval(SPECIAL_ITEMS[item.name])
     else
       @updater = GenericItemUpdater
     end
